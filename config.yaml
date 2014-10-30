@@ -1,0 +1,73 @@
+# Plugin Configuation
+# -------------------
+# Populate the following with your settings.
+#
+
+# Set the name that will be used to access the plugin on the window object.
+# When the package is included with <script> tags, the plugin will be
+# accessible via window.EXPORTED_PACKAGE_NAME.
+export_name: EXPORTED_PACKAGE_NAME
+
+# Any CSS included?
+css:
+  # 1. Pick an engine. Choose from: concat, less, stylus, sass
+  engine: less
+  # 2. Change any options.
+  options: {}
+  src: styles/*
+  dst: 'dist/'
+
+# These are the settings for the gulp-connect server.
+webserver:
+  open: spec/runner.html
+  port: 4040
+  livereload:
+    port: 4041
+  root:
+    - 'spec/'
+    - 'dist/'
+    - '.'
+    - 'bower_components/'
+
+# The livereload system will trigger when one of the globs below matches a
+# file that is modified.
+watch:
+  js:
+    - 'index.js'
+    - 'spec/test.js'
+  html: 'spec/*.html'
+  less:
+    - 'styles/*'
+    - 'spec/test.css'
+
+#         -----------------------  STOP  -----------------------
+# You should not need to modify the below. File an issue if you think you
+# may need to. The config below may be modified upstream without notice.
+upstream: https://github.com/brianmhunt/knockout-plugin-foundation.git
+
+header: |
+  /*!
+    <%=pkg.name%> v<%=pkg.version%> (<%=now.toISOString()%>)
+    By: <%=pkg.author%> © <%=now.getFullYear()%>
+    License: <%=pkg.license%>
+  */
+  (function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+      define(['knockout'], factory);
+    } else if (typeof exports === 'object') {
+      module.exports = factory(require('knockout'));
+    } else {
+      root.<%=config.export_name%> = factory(root.ko);
+    }
+  }(this, function (ko) {
+    var plugin;
+
+footer: |
+  // Exports
+    return plugin;
+  }));
+
+watch:
+  index.js
+  spec/*
+  config.yaml
