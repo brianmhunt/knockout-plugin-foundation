@@ -2,11 +2,22 @@
 # -------------------
 # Populate the following with your settings.
 #
-
-# Set the name that will be used to access the plugin on the window object.
-# When the package is included with <script> tags, the plugin will be
-# accessible via window.EXPORTED_PACKAGE_NAME.
+# 
+# 
+# Set the name that will be used to
+# 1. access the plugin on the window object when the package is included
+#    with <script> tags i.e. window.EXPORTED_PACKAGE_NAME
+# 2. set the filename in the dist/ directory i.e. EXPORTED_PACKAGE_NAME[.min].js
 export_name: EXPORTED_PACKAGE_NAME
+
+
+script:
+  src: 
+    - index.js
+    # Add scripts in order of inclusion e.g. 
+    #  - src/A.js
+    #  - src/B.js
+  dest: dist/
 
 # Any CSS included?
 css:
@@ -15,7 +26,8 @@ css:
   # 2. Change any options.
   options: {}
   src: styles/*
-  dst: 'dist/'
+  dest: 'dist/'
+
 
 # These are the settings for the gulp-connect server.
 webserver:
@@ -29,27 +41,22 @@ webserver:
     - '.'
     - 'bower_components/'
 
-# The livereload system will trigger when one of the globs below matches a
-# file that is modified.
-watch:
-  js:
-    - 'index.js'
-    - 'spec/test.js'
-  html: 'spec/*.html'
-  less:
-    - 'styles/*'
-    - 'spec/test.css'
+
+# Gulp-uglify settings
+uglify: {}
+
 
 #         -----------------------  STOP  -----------------------
 # You should not need to modify the below. File an issue if you think you
 # may need to. The config below may be modified upstream without notice.
-upstream: https://github.com/brianmhunt/knockout-plugin-foundation.git
+foundation:
+  repo: https://github.com/brianmhunt/knockout-plugin-foundation.git
+  version: 0.0.1
 
 header: |
-  /*!
-    <%=pkg.name%> v<%=pkg.version%> (<%=now.toISOString()%>)
-    By: <%=pkg.author%> © <%=now.getFullYear()%>
-    License: <%=pkg.license%>
+  /*! <%=pkg.name%> v<%=pkg.version%> (<%=now.toLocaleString()%>)
+      By: <%=pkg.author%> © <%=now.getFullYear()%>, license: <%=pkg.license%>.
+      <%=pkg.repository.url%>
   */
   (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
@@ -60,11 +67,10 @@ header: |
       root.<%=config.export_name%> = factory(root.ko);
     }
   }(this, function (ko) {
-    var plugin;
+    var pluginExports = {};
 
 footer: |
-  // Exports
-    return plugin;
+  return pluginExports;
   }));
 
 watch:

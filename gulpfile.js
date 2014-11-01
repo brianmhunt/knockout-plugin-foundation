@@ -5,6 +5,8 @@
 // If you believe there is functionality that is missing from here, please
 // submit an issue to the repository.
 //
+require('colors');
+
 var fs = require('fs'),
     Q = require('q'),
     gulp = require('gulp'),
@@ -12,11 +14,20 @@ var fs = require('fs'),
     yaml = require('js-yaml'),
     config = yaml.safeLoad(fs.readFileSync('./config.yaml', 'utf8')),
     proc = require('child_process'),
-    pkg = require('./package.json');
+    pkg = require('./package.json'),
+    now = new Date();
+
+console.log(
+  "\n\tKnockout Plugin Foundation task runner".yellow.underline +
+    " (" + config.foundation.version + ")" +
+  "\n\tPlugin: " + config.export_name.blue +
+  "\n\tVersion: " + pkg.version.blue +
+  "\n"
+);
 
 
-// init
-// ----
+//      Init
+//      ----
 // Perform the things necessary to get rolling.
 gulp.task("init", function () {
   var css;
@@ -34,7 +45,9 @@ gulp.task("init", function () {
 });
 
 
-
+//    Increment version
+//    -----------------
+// 
 // from https://github.com/ikari-pl/gulp-tag-version
 function inc(importance) {
   console.log(" ----  >>>  Don't forget: $ git push --tag");
@@ -51,6 +64,10 @@ gulp.task('feature', function() { return inc('minor'); })
 gulp.task('release', function() { return inc('major'); })
 
 
+//      CSS
+//      ---
+//      Convert one/many files, less, sass or stylus to css.
+//      
 gulp.task('css', function () {
   if (!config.css.engine) {
     return
@@ -59,29 +76,61 @@ gulp.task('css', function () {
     .pipe(plugins[config.css.engine](config.css.options)
     .on('error', console.log))
     .pipe(plugins.autoprefixer())
-    .pipe(gulp.dest(config.css.dst))
+    .pipe(gulp.dest(config.css.dest))
     .pipe(plugins.connect.reload());
 })
 
-gulp.task('connect', function () {
+
+//      Server
+//      ------
+//      Start a webserver that livereloads on changes.
+gulp.task('server', function () {
   plugins.connect.server(config.connect);
 })
 
-gulp.task('html', function () {
-  gulp.src(config.watch.html)
-    .pipe(plugins.connect.reload());
+
+//      Compile Javascript
+//      ------------------
+//      Convert the Javascript files to one.
+// 
+gulp.task('compile', function () {
+  gulp.src(config.script.src)
+    .pipe(plugins.concat(config.export_name + ".js"))
+    .pipe(plugins.header(config.header, {config: config, pkg: pkg, now: now}))
+    .pipe(plugins.footer(config.footer, {config: config, pkg: pkg, now: now}))
+    .pipe(gulp.dest(config.script.dest))
+    .pipe(plugins.rename(config.export_name + ".min.js"))
+    .pipe(plugins.uglify(config.uglify))
+    .pipe(gulp.dest(config.script.dest))
+    // .pipe(plugins.connect.reload());
 });
 
-gulp.task('js', function () {
-  gulp.src(config.watch.js)
-    .pipe(plugins.connect.reload());
-});
 
+//      Watch
+//      -----
+//      Observer changes, rebuilding as necessary.
 gulp.task('watch', ['less', 'html', 'js'], function () {
   gulp.watch(config.watch.less, ['less'])
   gulp.watch(config.watch.html, ['html'])
   gulp.watch(config.watch.js, ['js'])
-})
+});
 
-gulp.task('live', ['watch', 'connect'])
-gulp.task('default', ['live'])
+
+//      Self-test
+//      ---------
+//      Ensure the Foundation works as expected.
+gulp.task('self-test', function () {
+  require('./.foundation-spec')
+});
+
+//      Live
+//      ----
+gulp.task('live', ['watch', 'server'])
+
+//      Menu
+//      ----
+gulp.task('default', function () {
+    plugins.menu(this);
+});
+
+require('./tasks.js')
