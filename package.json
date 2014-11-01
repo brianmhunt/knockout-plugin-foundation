@@ -34,8 +34,10 @@
     "gulp-header": "^1.2.2",
     "gulp-livereload": "^2.1.1",
     "gulp-load-plugins": "^0.7.0",
+    "gulp-menu": "^0.2.2",
     "gulp-util": "^3.0.1",
     "gulp-webserver": "^0.8.4",
+    "inquirer": "^0.8.0",
     "js-yaml": "^3.2.2",
     "knockout": "^3.2.0",
     "q": "^1.0.1"
