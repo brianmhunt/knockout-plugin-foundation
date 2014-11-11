@@ -1,7 +1,7 @@
 knockout-plugin-foundation
 ==========================
 
-A foundation for all Knockout plugins.
+A foundation for Knockout plugins.
 
 Right now we're just testing it out. Nothing will work here yet.
 
