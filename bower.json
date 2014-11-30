@@ -1,0 +1,25 @@
+{
+  "name": "knockout-plugin-foundation",
+  "version": "0.0.1",
+  "homepage": "https://github.com/brianmhunt/knockout-plugin-foundation",
+  "authors": [
+    "Brian M Hunt <brianmhunt@gmail.com>"
+  ],
+  "description": "A place for Knockout Plugins",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "html5-boilerplate": "~4.3.0",
+    "knockout.punches": "~0.5.0",
+    "knockout-projections": "~1.1.0"
+  },
+  "devDependencies": {
+    "fontawesome": "~4.2.0"
+  }
+}

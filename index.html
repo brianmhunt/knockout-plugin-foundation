@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href='bower_components/fontawesome/css/font-awesome.min.css'>
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <p>Knockout plugins</p>
+        <p>
+        <input type='text' data-bind='textInput: plugins_filter' />
+        </p>
+        <ul data-bind='foreach: plugins'>
+            <li>
+                <ko-plugin params='plugin: $data'></ko-plugin>
+            </li>
+        </ul>
+
+        <script id='plugin-model-template' type='text/x-ko-script'>
+          <h2>
+            {{ user }}
+            /
+            {{ repo }}
+          </h2>
+          <!-- ko with: about -->
+            <div style='float:right'>
+                <i class='fa fa-fw fa-star-o'></i> {{ stargazers_count }}
+                <i class='fa fa-fw fa-eye'></i> {{ watchers_count }}
+                <i class='fa fa-fw fa-code-fork'></i> {{ forks_count }}
+                <i class='fa fa-fw fa-exclamation-circle'></i> {{ open_issues_count }}
+            </div>
+            <p>{{ description }}</p>
+
+            <div>
+                <i class='fa fa-lg fa-github'></i>
+                <a href='{{ html_url }}'>Repository</a>
+                <a href='{{ owner.html_url }}'>
+                    Owner ({{ owner.login }})
+                </a>
+            </div>
+          <!-- /ko -->
+          <!-- ko ifnot: about -->
+          <i class='fa fa-lg fa-spin fa-circle-o-notch'></i>
+          <!-- /ko -->
+        </script>
+        
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.2.0/knockout-min.js"></script>
+        <script>window.ko || document.write('<script src="js/vendor/knockout-min.js"><\/script>')</script>
+        <script src='bower_components/knockout.punches/knockout.punches.min.js'></script>
+        <script src='bower_components/knockout-projections/src/knockout-projections.js'></script>
+        <script src="js/main.js"></script>
+    </body>
+</html>
