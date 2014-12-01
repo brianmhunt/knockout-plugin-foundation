@@ -9,7 +9,8 @@ var loading_complete = ko.observable(true),
     all_plugins_array = ko.observableArray(),
     filtered_plugins_array,
     sorted_plugins_array = ko.observableArray(),
-    stale_after_ms = 1000 * 60 * 60, // Refresh ever hour
+    // Refresh ever few hours
+    stale_after_ms = 1000 * 60 * 60 * 3,
     now = new Date();
 
 // Loading / mapping
@@ -19,7 +20,7 @@ function load_info_from_github(identity) {
 
   if (object) {
     var parsed = JSON.parse(object);
-    if (!parsed._last_refresh || parsed._last_refresh + stale_after_ms < now.getTime()) {
+    if (parsed._last_refresh && parsed._last_refresh + stale_after_ms > now.getTime()) {
       // Cache is still 'fresh'
       return JSON.parse(object);
     }
