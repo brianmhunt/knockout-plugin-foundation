@@ -1,3 +1,7 @@
+// 
+// Main Javascript file for the Knockout Plugins website
+// 
+
 var plugins_list = ko.observableArray();
 var plugins_filter = ko.observable('');
 
@@ -21,7 +25,7 @@ function filter_function(item) {
 //         (a.stargazers_count < b.stargazers_count ? -1 : 1);
 //       }
 //     default:
-      
+
 //   }
 // }
 
