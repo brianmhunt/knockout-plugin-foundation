@@ -120,6 +120,10 @@ pre {
     color: #AAA;
 }
 
+small {
+    color: #AAA;
+}
+
 div.content {
     max-width: 800px;
     margin: 0px auto;    
@@ -152,6 +156,16 @@ ul.plugins li {
     font-size: 0.9em;
     color: #888;
     float: right;
+    border: 1px solid #DDD;
+    border-radius: 4px;
+    padding: 4px 0.6em;
+    text-align: center;
+}
+
+.loading {
+    text-align: center;
+    padding: 80px;
+    color: #AAA;
 }
 
 a {
@@ -168,7 +182,9 @@ a:hover {
     text-decoration: underline;
 }
 
-
+.muted {
+    color: #aaa;
+}
 
 
 

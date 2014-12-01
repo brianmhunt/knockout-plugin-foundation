@@ -25,9 +25,31 @@
 
         <h1>Knockout plugins</h1>
         <div class='content'>
-            <input class='filters' autofocus type='text' data-bind='textInput: plugins_filter'
-                placeholder='Search' />
-            <ul class='plugins' data-bind='foreach: plugins'>
+            <input class='filters' autofocus type='text' 
+                data-bind='textInput: plugins_filter' placeholder='Search' />
+            <div style='text-align: right'>
+                <i class='fa fa-sort-alpha-asc muted'></i>
+                <select data-bind='value: sort_by'>
+                    <option value='stargazers_count'>
+                        Stars
+                    </option>
+                    <option value='-name'>
+                        Name
+                    </option>
+                    <option value='-full_name'>
+                        Owner
+                    </option>
+                    <option value='updated_at'>
+                        Last updated
+                    </option>
+                </select>
+            </div>
+            <!-- ko ifnot: loading_complete -->
+            <div class='loading'>
+                <i class='fa fa-spin fa-spinner fa-5x'></i>
+            </div>
+            <!-- /ko -->
+            <ul class='plugins' data-bind='template: {foreach: plugins, if: loading_complete}'>
                 <li>
                     <ko-plugin params='plugin: $data'></ko-plugin>
                 </li>
@@ -35,13 +57,15 @@
         </div>
 
         <script id='plugin-model-template' type='text/x-ko-script'>
-          <h2>{{identity}}</h2>
-          <!-- ko with: about -->
+          <h2><small>{{ owner }}/</small>{{ name }}</h2>
+          <!-- ko ifnot: err -->
             <div class='stats'>
                 {{ stargazers_count }} <i class='fa fa-star'></i>&nbsp;
                 {{ watchers_count }} <i class='fa fa-eye'></i>&nbsp;
                 {{ forks_count }} <i class='fa fa-code-fork'></i>&nbsp;
-                {{ open_issues_count }} <i class='fa fa-exclamation-circle'></i> 
+                {{ open_issues_count }} <i class='fa fa-exclamation-circle'></i>
+                <br/>
+                <small title='Last updated'>{{ updated_at }}</small>
             </div>
             <p class='description'>{{ description }}</p>
 
@@ -50,15 +74,12 @@
                 <a href='{{ html_url }}'>
                     {{ html_url |replace:"https://":""}}
                 </a>
-                (<a href='{{ owner.html_url }}'>{{ owner.login }}</a>)
+                (<a href='{{ owner_url }}'>{{ owner }}</a>)
             </div>
-          <!-- /ko -->
-          <!-- ko ifnot: about() || err() -->
-            <i class='fa fa-lg fa-spin fa-circle-o-notch'></i>
           <!-- /ko -->
           <!-- ko if: err -->
             <i class='fa fa-lg fa-exclamation-triangle'></i> Something went wrong. Response:
-            <pre>{{ err().responseText }}</pre>
+            <pre>{{ err }}</pre>
           <!-- /ko -->
         </script>
         
@@ -68,7 +89,6 @@
         <script>window.ko || document.write('<script src="js/vendor/knockout-min.js"><\/script>')</script>
         <script src='js/vendor/knockout.punches.min.js'></script>
         <script src='js/vendor/knockout-projections.js'></script>
-        <script src='js/vendor/promise.min.js'></script>
         <script src="js/main.js"></script>
     </body>
 </html>
