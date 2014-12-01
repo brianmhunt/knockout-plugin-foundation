@@ -97,16 +97,76 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+body {
+    font-family: 'Fira Sans', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    color: #555555;
+    overflow-y; scroll;
+}
 
+h1 {
+    font-family: 'Lobster Two', cursive, serif;
+    text-align: center;
+}
 
+h2 {
+    font-weight: 500;
+    margin: 0;
+}
 
+pre {
+    font-size: 0.8em;
+    color: #AAA;
+}
 
+div.content {
+    max-width: 800px;
+    margin: 0px auto;    
+}
 
+input.filters {
+    width: 100%;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 1.1em;
+    outline: none;
+    padding: 6px 1em;
+}
 
+ul.plugins {
+    list-style: none;
+}
 
+ul.plugins li {
+    padding: 1em 0px 1em 0px;
+    border-bottom: 1px solid #ddd;
+}
 
+.description {
+    padding: 0 0 1ex 0;
+    margin: 0;
+}
 
+.stats {
+    font-size: 0.9em;
+    color: #888;
+    float: right;
+}
 
+a {
+    color: blue;
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+a:visited {
+    color: blue;
+}
+
+a:hover {
+    text-decoration: underline;
+}
 
 
 

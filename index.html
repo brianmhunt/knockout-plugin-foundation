@@ -12,6 +12,7 @@
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
+        <link href='http://fonts.googleapis.com/css?family=Fira+Sans:300,500|Lobster+Two' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href='bower_components/fontawesome/css/font-awesome.min.css'>
         <link rel="stylesheet" href="css/main.css">
@@ -22,41 +23,42 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <p>Knockout plugins</p>
-        <p>
-        <input type='text' data-bind='textInput: plugins_filter' />
-        </p>
-        <ul data-bind='foreach: plugins'>
-            <li>
-                <ko-plugin params='plugin: $data'></ko-plugin>
-            </li>
-        </ul>
+        <h1>Knockout plugins</h1>
+        <div class='content'>
+            <input class='filters' autofocus type='text' data-bind='textInput: plugins_filter'
+                placeholder='Search' />
+            <ul class='plugins' data-bind='foreach: plugins'>
+                <li>
+                    <ko-plugin params='plugin: $data'></ko-plugin>
+                </li>
+            </ul>
+        </div>
 
         <script id='plugin-model-template' type='text/x-ko-script'>
-          <h2>
-            {{ user }}
-            /
-            {{ repo }}
-          </h2>
+          <h2>{{identity}}</h2>
           <!-- ko with: about -->
-            <div style='float:right'>
-                <i class='fa fa-fw fa-star-o'></i> {{ stargazers_count }}
-                <i class='fa fa-fw fa-eye'></i> {{ watchers_count }}
-                <i class='fa fa-fw fa-code-fork'></i> {{ forks_count }}
-                <i class='fa fa-fw fa-exclamation-circle'></i> {{ open_issues_count }}
+            <div class='stats'>
+                {{ stargazers_count }} <i class='fa fa-star-o'></i>&nbsp;
+                {{ watchers_count }} <i class='fa fa-eye'></i>&nbsp;
+                {{ forks_count }} <i class='fa fa-code-fork'></i>&nbsp;
+                {{ open_issues_count }} <i class='fa fa-exclamation-circle'></i> 
             </div>
-            <p>{{ description }}</p>
+            <p class='description'>{{ description }}</p>
 
             <div>
-                <i class='fa fa-lg fa-github'></i>
-                <a href='{{ html_url }}'>Repository</a>
-                <a href='{{ owner.html_url }}'>
-                    Owner ({{ owner.login }})
+                <i class='fa fa-fw fa-github-alt'></i>
+                <a href='{{ html_url }}'>
+                    {{ html_url |replace:"https://":""}}
                 </a>
+                (<a href='{{ owner.html_url }}'>{{ owner.login }}</a>)
             </div>
           <!-- /ko -->
-          <!-- ko ifnot: about -->
-          <i class='fa fa-lg fa-spin fa-circle-o-notch'></i>
+          <!-- ko ifnot: about() || err() -->
+            <i class='fa fa-lg fa-spin fa-circle-o-notch'></i>
+          <!-- /ko -->
+          <!-- ko if: err -->
+            <i class='fa fa-lg fa-exclamation-triangle'></i> Something went wrong. Response:
+            <pre>{{ err().responseText }}</pre>
           <!-- /ko -->
         </script>
         
