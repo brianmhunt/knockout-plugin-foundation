@@ -15,10 +15,14 @@ var loading_complete = ko.observable(true),
 // Loading / mapping
 function load_info_from_github(identity) {
   var object = localStorage.getItem(identity),
-      fresh = object && object._last_refresh && object._last_refresh + stale_after_ms > now,
       request;
-  if (object && fresh) {
-    return JSON.parse(object);
+
+  if (object) {
+    var parsed = JSON.parse(object);
+    if (!parsed._last_refresh || parsed._last_refresh + stale_after_ms < now.getTime()) {
+      // Cache is still 'fresh'
+      return JSON.parse(object);
+    }
   }
   request = $.Deferred()
   function on_get(info) {
