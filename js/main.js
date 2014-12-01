@@ -64,8 +64,8 @@ function map_plugins_to_objects(plugins_list) {
 filtered_plugins_array = all_plugins_array.filter(filter_function);
 
 function filter_function(item) {
-  var filter = ko.unwrap(plugins_filter);
-  return item.full_name.indexOf(filter) >= 0;
+  var filter = (ko.unwrap(plugins_filter) || '').toLowerCase();
+  return item.full_name.toLowerCase().indexOf(filter) >= 0;
 }
 
 // Sorting (painfully inefficient, but it's a small list.)
