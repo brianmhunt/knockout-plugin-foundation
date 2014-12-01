@@ -89,7 +89,7 @@ sort_by.subscribe(resort);
 // populated with info from the GitHub API.
 function PluginModel(params) {
   var p = params.plugin,
-      updated = new Date(p.updated_at);
+      updated = new Date(p.pushed_at);
   this.owner = p.owner.login;
   this.name = p.name;
   this.stargazers_count = p.stargazers_count;
