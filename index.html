@@ -72,9 +72,9 @@
             <div>
                 <i class='fa fa-fw fa-github-alt'></i>
                 <a href='{{ html_url }}'>
-                    {{ html_url |replace:"https://":""}}
+                    {{ html_url |replace:"https://github.com/":""}}
                 </a>
-                (<a href='{{ owner_url }}'>{{ owner }}</a>)
+                <small>(<a href='{{ owner_url }}'>{{ owner }}</a>)</small>
             </div>
           <!-- /ko -->
           <!-- ko if: err -->
